@@ -4,25 +4,6 @@
     </a>
 </p>
 
-# iView Admin
-
-[![](https://img.shields.io/github/release/iview/iview-admin.svg)](https://github.com/iview/iview-admin/releases)
-[![](https://img.shields.io/travis/iview/iview-admin.svg?style=flat-square)](https://travis-ci.org/iview/iview-admin)
-[![vue](https://img.shields.io/badge/vue-2.5.10-brightgreen.svg?style=flat-square)](https://github.com/vuejs/vue)
-[![iview ui](https://img.shields.io/badge/iview-3.1.3-brightgreen.svg?style=flat-square)](https://github.com/iview/iview)
-[![npm](https://img.shields.io/npm/l/express.svg)]()
-
-[更新日志](https://github.com/iview/iview-admin/releases)
-
-[使用文档](https://lison16.github.io/iview-admin-doc/#/)
-
-[在线访问](https://admin.iviewui.com/)
-
-[简化版模板](https://github.com/iview/iview-admin/tree/template)
-
-[教学视频(26课时)](https://segmentfault.com/ls/1650000016221751?utm_source=banner)
-
-`注：在线版本会在开发版本新小版本发布后更新到相应版本，所以如果想体验最新版本iview-admin，请clone完整项目代码到本地运行。`
 
 ## Install
 ```bush
@@ -39,9 +20,6 @@ npm run dev
 npm run build
 ```
 
-## 加入QQ群，获取最新更新咨询，和3000+开发者交流学习
-
-![image](https://github.com/iview/iview-admin/raw/2.0/src/assets/images/groups.jpg)
 
 ## 简介
 &emsp;&emsp;iView admin是基于Vue.js，搭配使用[iView](https://www.iviewui.com) UI组件库形成的一套后台集成解决方案，由TalkingData前端可视化团队部分成员开发维护。iView admin遵守iView设计和开发约定，风格统一，设计考究，并且更多功能在不停开发中。
@@ -121,69 +99,6 @@ npm run build
 - [iView](https://github.com/iview/iview)
 - [Vue](https://github.com/vuejs/vue)
 - [Webpack](https://github.com/webpack/webpack)
-
-## 效果展示
-
-- 响应式布局首页
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/home.gif)
-
-- 标签导航
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/page-tags.gif)
-
-- 权限管理
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/access.gif)
-
-- 可拖拽列表
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/dragable-list.gif)
-
-- 图片预览编辑
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/image-editor.gif)
-
-- 文件上传
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/upload.gif)
-
-- 数字渐变
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/count-to.gif)
-
-- split-pane
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/split-pane.gif)
-
-- 文章发布
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/article-publish.gif)
-
-- 工作流
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/workflow.gif)
-
-- 可拖拽表格
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/dragable-table.gif)
-
-- 可编辑表格
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/editable-table.gif)
-
-- 表格导出数据
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/exportable-table.gif)
-
-- 表格转图片
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/table2image.gif)
-
-- 错误页面
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/error-page.gif)
-
-- 锁屏
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/locking.gif)
-
-- 可收缩侧边栏
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/sidebarmenu.gif)
-
-- 主题切换
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/theme.gif)
-
-- 消息中心
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/message.gif)
-
-### 💖💖 If you find this project helpful, maybe you can buy me a coffee. 💖💖
-![image](https://github.com/iview/iview-admin/raw/dev/github-gif/code.png)
-
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)
