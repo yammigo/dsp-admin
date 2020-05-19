@@ -46,7 +46,7 @@
             </Form>
         </div>
         <div class="tableBox">
-            <div class="table_setting" style="margin-bottom:10px;"><Button type="primary" icon="md-add" @click="modalData.type='add';modalData.show = true;">创建广告组</Button></div>
+            <!-- <div class="table_setting" style="margin-bottom:10px;"><Button type="primary" icon="md-add" @click="modalData.type='add';modalData.show = true;">创建广告组</Button></div> -->
             <div class="data_table">
                 <Table size='small' :loading="tableData.loading" border :columns="tableData.columns" :data="tableData.data"></Table>
             </div>
@@ -207,29 +207,29 @@ export default {
           width: 120,
           render: (h, params) => {
             return h('div', [
-              h('Button', {
-                props: {
-                  type: 'text',
-                  size: 'small'
-                },
-                style: {
-                  color: this.dictData.statusColor[1]
-                },
-                on: {
-                  click: () => {
-                    this.modalData.type = 'edit'
-                    this.modalData.show = true
+              // h('Button', {
+              //   props: {
+              //     type: 'text',
+              //     size: 'small'
+              //   },
+              //   style: {
+              //     color: this.dictData.statusColor[1]
+              //   },
+              //   on: {
+              //     click: () => {
+              //       this.modalData.type = 'edit'
+              //       this.modalData.show = true
 
-                    params.row.userId += ''
-                    params.row.companyId += ''
-                    params.row.groupTarget += ''
-                    this.formData = {
-                      ...params.row
-                    }
-                  }
-                }
+              //       params.row.userId += ''
+              //       params.row.companyId += ''
+              //       params.row.groupTarget += ''
+              //       this.formData = {
+              //         ...params.row
+              //       }
+              //     }
+              //   }
 
-              }, '修改'),
+              // }, '修改'),
               h('Button', {
                 props: {
                   type: 'text',

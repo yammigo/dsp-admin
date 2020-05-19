@@ -87,6 +87,6 @@ export const getAppAll = () => {
   return axios.request({
     url: '/channel/app/list.do',
     method: 'post',
-    data: { page: 1, limit: 10000, data: {} }
+    data: { page: 1, limit: 10000, data: { status: 1 } }
   })
 }

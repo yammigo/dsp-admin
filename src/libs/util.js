@@ -53,7 +53,7 @@ export const getMenuByRouter = (list, access) => {
 export const setNewMenuList = (list) => {
   let res = []
   forEach(list, item => {
-    if (item.link.trim()) {
+    if (item.link) {
       let obj = {
         icon: item.icon,
         name: item.link,

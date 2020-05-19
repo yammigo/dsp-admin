@@ -16,6 +16,11 @@ export default {
   /**
    * @description api请求基础路径
    */
+
+  // baseUrl: {
+  //   dev: '//10.0.0.111:8081',
+  //   pro: '//10.0.0.111:8081'
+  // },
   baseUrl: {
     dev: 'http://dsp-admin-api.xcmad.com',
     pro: 'http://dsp-admin-api.xcmad.com'

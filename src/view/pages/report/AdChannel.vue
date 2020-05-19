@@ -33,6 +33,9 @@
                 <FormItem>
                     <Button type="primary" icon="md-refresh" color="#5cadff" @click="handleReset('formSearch')">重置</Button>
                 </FormItem>
+                 <FormItem>
+                    <Button type="primary" color="#5cadff" @click="exportData">导出</Button>
+                </FormItem>
                 <div>
                     <FormItem prop="groupBy">
                         <label>分组查询</label>
@@ -104,79 +107,73 @@ export default {
           dataDate: ['dataDate'],
           channelId: ['channelName'],
           appId: ['appName'],
-          slotId: ['slotName']
+          slotId: ['slotName', 'slotCode']
         },
         columns: [],
         commonCol: [{
           title: '金额',
-          key: 'amount',
-          width: 120,
-          align: 'right'
-        },
-        {
-          title: '返回数',
-          key: 'sendCount',
-          width: 120,
+          key: 'income',
+          width: 100,
           align: 'right'
         },
         {
           title: '展现数',
           key: 'showCount',
-          width: 120,
+          width: 100,
           align: 'right'
         },
         {
           title: '点击数',
           key: 'clickCount',
-          width: 120,
+          width: 100,
           align: 'right'
         },
         {
           title: '开始下载',
           key: 'downStartCount',
-          width: 120,
+          width: 100,
           align: 'right'
         },
         {
           title: '完成下载',
           key: 'downEndCount',
-          width: 120,
+          width: 100,
           align: 'right'
         },
         {
-          title: '开安装数',
+          title: '开始安装',
           key: 'installStartCount',
-          width: 120,
+          width: 100,
           align: 'right'
         },
         {
           title: '完成安装',
-          key: 'installStartCount',
-          width: 120,
+          key: 'installEndCount',
+          width: 100,
           align: 'right'
         },
         {
           title: '开始播放',
           key: 'playStartCount',
-          width: 120,
+          width: 100,
           align: 'right'
         },
         {
           title: '完成播放',
           key: 'playEndCount',
-          width: 120,
+          width: 100,
           align: 'right'
         },
         {
           title: '关闭播放',
           key: 'closeCount',
-          width: 120,
+          width: 100,
           align: 'right'
         },
         {
           title: '跳过',
           key: 'skipCount',
-          width: 120,
+          width: 100,
           align: 'right'
         }
         ],
@@ -187,25 +184,27 @@ export default {
           render (h, p) {
             return h('div', {}, Manba(p.row.dataDate).format())
           },
-          width: 200
+          width: 100
         },
         {
           title: '渠道',
           key: 'channelName',
-          width: 200
+          width: 100
         },
         {
           title: '应用',
           key: 'appName',
-          width: 200
+          width: 120
         },
         {
           title: '广告位',
           key: 'slotName',
-          width: 200
-          // render(h,params) {
-          //     return [h("div",{},params.row.slotCode)]
-          // },
+          width: 180
+        },
+        {
+          title: '广告位Id',
+          key: 'slotCode',
+          width: 100
         }
 
         ],
@@ -229,6 +228,11 @@ export default {
     this.search()
   },
   methods: {
+    exportData () {
+      this.axios
+        .post('/data/list/income/channel/export.do', this.formSearch)
+        .then(rt => {})
+    },
     changeGroup () {
       // 分组切换
       this.getList()

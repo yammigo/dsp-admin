@@ -51,16 +51,14 @@
             </Form>
         </div>
         <div class="tableBox">
-            <div class="table_setting" style="margin-bottom:10px;"><Button type="primary" icon="md-add" @click="modalData.type='add';modalData.show = true;">创建计划</Button></div>
+            <!-- <div class="table_setting" style="margin-bottom:10px;"><Button type="primary" icon="md-add" @click="modalData.type='add';modalData.show = true;">创建计划</Button></div> -->
             <div class="data_table">
                 <Table size='small' :loading="tableData.loading" border :columns="tableData.columns" :data="tableData.data"></Table>
             </div>
             <div class="table_page" style="margin-top:10px;">
                 <Page :total="pageData.total" :page-size="pageData.limit" @on-change="changePage" @on-page-size-change="changePageSize" size="small" show-total show-sizer />
             </div>
-
         </div>
-
     </Card>
     <Modal :width="800" v-model="modalData.show" :title="modalData.type=='add'?'创建计划':'修改计划'" :mask-closable="false" :closable="false">
         <Form ref="formData" :model="formData" :label-width="80" :rules="ruleValidate">
@@ -150,6 +148,16 @@
                 </FormItem>
                 </Col>
             </Row>
+            <Row>
+                <FormItem label="投放媒体">
+                    <Select v-model="formData.apps" filterable multiple allow-create style="width:90%">
+                        <Option v-for="item in appAllList" :value="item.id+''" :key="item.id+''" :label="item.appName+'-'+item.packageName">
+                            <div>{{item.appName}}</div>
+                            <div style="color:#ccc">{{item.packageName}}</div>
+                        </Option>
+                    </Select>
+                </FormItem>
+            </Row>
         </Form>
         <div slot="footer">
             <Button type="primary" :loading="modalData.loading" @click="saveModal('formData')">保存</Button>
@@ -166,7 +174,8 @@ import selectCity from './components/selectCity'
 import weekTime from './components/weekTime'
 import {
   getCompany,
-  getCityList
+  getCityList,
+  getAppAll
 } from '@/api/common'
 import {
   adPlanApi,
@@ -184,6 +193,7 @@ export default {
   },
   data () {
     return {
+      appAllList: [],
       groupList: [],
       userList: [],
       companyList: [],
@@ -350,19 +360,27 @@ export default {
                 },
                 on: {
                   click: () => {
+                    let newApps = []
                     this.modalData.type = 'edit'
                     this.modalData.show = true
                     params.row.groupId += ''
                     params.row.putType += ''
                     params.row.bidType += ''
+
+                    params.row.apps && (params.row.apps.forEach(item => {
+                      newApps.push(item + '')
+                    }))
+                    params.row.apps = newApps
+
                     this.formData = {
                       ...params.row
                     }
+                    console.log(this.formData)
                     this.formData.companyId += ''
                   }
                 }
 
-              }, '修改'),
+              }, '编辑'),
               h('Button', {
                 props: {
                   type: 'text',
@@ -433,9 +451,17 @@ export default {
         this.groupList = res.data.data.list
       }
     })
+    this.getAppAllList()
     this.search()
   },
   methods: {
+    getAppAllList () {
+      getAppAll().then(res => {
+        if (res.data.ok) {
+          this.appAllList = res.data.data.list
+        }
+      })
+    },
     getUserList () {
       getUserList({
         page: 1,

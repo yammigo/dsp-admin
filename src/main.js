@@ -18,7 +18,8 @@ import '@/assets/icons/iconfont.css'
 if (process.env.NODE_ENV !== 'production') require('@/mock')
 
 Vue.use(iView, {
-  i18n: (key, value) => i18n.t(key, value)
+  i18n: (key, value) => i18n.t(key, value),
+  // size: 'large',
 })
 // Vue.use(TreeTable)
 // Vue.use(VOrgTree)

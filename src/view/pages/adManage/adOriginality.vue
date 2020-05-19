@@ -48,7 +48,7 @@
             </Form>
         </div>
         <div class="tableBox">
-            <div class="table_setting" style="margin-bottom:10px;"><Button type="primary" icon="md-add" @click="modalData.type='add';modalData.show = true;">添加创意</Button></div>
+            <!-- <div class="table_setting" style="margin-bottom:10px;"><Button type="primary" icon="md-add" @click="modalData.type='add';modalData.show = true;">添加创意</Button></div> -->
             <div class="data_table">
                 <Table size='small' :loading="tableData.loading" border :columns="tableData.columns" :data="tableData.data"></Table>
             </div>

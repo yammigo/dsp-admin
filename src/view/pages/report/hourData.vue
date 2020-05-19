@@ -5,75 +5,87 @@
     <Card dis-hover shadow :bordered="false">
         <div slot="title">
             <Form ref="formSearch" :model="formSearch" inline>
-                <FormItem>
-                    <DatePicker v-model="formSearch.queryStartTime" type="date" placeholder="开始日期" @on-change="changeDateStart" style="width: 200px"></DatePicker>
-                </FormItem>
-                <FormItem>
-                    -
-                </FormItem>
-                <FormItem>
-                    <DatePicker v-model="formSearch.queryEndTime" type="date" placeholder="结束日期" @on-change="changeDateEnd" style="width: 200px"></DatePicker>
-                </FormItem>
-                <FormItem prop="companyId">
-                    <Select v-model="formSearch.companyId" style="width:200px;" placeholder="公司主体" filterable clearable>
-                        <Option v-for="(item, index) in companyList" :key="index" :value="item.id">{{item.name}}</Option>
-                    </Select>
-                </FormItem>
-                <FormItem prop="userId">
-                    <Select v-model="formSearch.userId" style="width:200px;" placeholder="用户" filterable clearable>
-                        <Option v-for="(item, index) in userList" :key="index" :value="item.id">{{item.userName}}</Option>
-                    </Select>
-                </FormItem>
-                <FormItem prop="groupId">
-                    <Select v-model="formSearch.groupId" style="width:200px;" placeholder="广告组" filterable clearable>
-                        <Option v-for="(item, index) in groupList" :key="index" :value="item.id">{{item.groupName}}</Option>
-                    </Select>
-                </FormItem>
-                <FormItem prop="planId">
-                    <Select v-model="formSearch.planId" style="width:200px;" placeholder="计划" filterable clearable>
-                        <Option v-for="(item, index) in planList" :key="index" :value="item.id">{{item.planName}}</Option>
-                    </Select>
-                </FormItem>
-                <FormItem prop="ideaId">
-                    <Select v-model="formSearch.ideaId" style="width:200px;" placeholder="创意" filterable clearable>
-                        <Option v-for="(item, index) in ideaList" :key="index" :value="item.id">{{item.ideaName}}</Option>
-                    </Select>
-                </FormItem>
-                <FormItem prop="appId">
-                    <Select v-model="formSearch.appId" style="width:200px;" placeholder="应用" filterable clearable>
-                        <Option v-for="(item, index) in appList" :key="index" :value="item.id">{{item.appName}}</Option>
-                    </Select>
-                </FormItem>
-                <FormItem prop="slotId">
-                    <Select v-model="formSearch.slotId" style="width:200px;" placeholder="广告位" filterable clearable>
-                        <Option v-for="(item, index) in codeList" :key="index" :value="item.id" :label="item.slotName">
-                            <div>{{item.slotName}}</div>
-                            <div style="color:#ccc">ID:{{item.slotCode}}</div>
-                        </Option>
-                    </Select>
-                </FormItem>
-                <FormItem>
-                    <Button type="primary" icon="ios-search" @click="search(1)">查询</Button>
-                </FormItem>
-                <FormItem>
-                    <Button type="primary" icon="md-refresh" color="#5cadff" @click="handleReset('formSearch')">重置</Button>
-                </FormItem>
                 <div>
-                    <FormItem  prop="queryStartHour">
-                   <Input v-model="formSearch.queryStartHour" placeholder="开始小时" clearable style="width:100px" />
+                    <FormItem>
+                        <DatePicker v-model="formSearch.queryStartTime" type="date" placeholder="开始日期" @on-change="changeDateStart" style="width: 200px"></DatePicker>
                     </FormItem>
-                     <FormItem>-</FormItem>
+                    <FormItem prop="queryStartHour">
+                        <Input v-model="formSearch.queryStartHour" placeholder="开始小时" clearable style="width:100px" />
+                    </FormItem>
+                    <FormItem>
+                        <DatePicker v-model="formSearch.queryEndTime" type="date" placeholder="结束日期" @on-change="changeDateEnd" style="width: 200px"></DatePicker>
+                    </FormItem>
                     <FormItem prop="queryEndHour">
-                    <Input v-model="formSearch.queryEndHour" placeholder="结束小时" clearable style="width:100px" />
+                        <Input v-model="formSearch.queryEndHour" placeholder="结束小时" clearable style="width:100px" />
+                    </FormItem>
+
+                </div>
+                <div>
+                    <FormItem prop="groupId">
+                        <Select v-model="formSearch.groupId" style="width:200px;" placeholder="广告组" filterable clearable>
+                            <Option v-for="(item, index) in groupList" :key="index" :value="item.id">{{item.groupName}}</Option>
+                        </Select>
+                    </FormItem>
+                    <FormItem prop="planId">
+                        <Select v-model="formSearch.planId" style="width:200px;" placeholder="计划" filterable clearable>
+                            <Option v-for="(item, index) in planList" :key="index" :value="item.id">{{item.planName}}</Option>
+                        </Select>
+                    </FormItem>
+                    <FormItem prop="ideaId">
+                        <Select v-model="formSearch.ideaId" style="width:200px;" placeholder="创意" filterable clearable>
+                            <Option v-for="(item, index) in ideaList" :key="index" :value="item.id">{{item.ideaName}}</Option>
+                        </Select>
                     </FormItem>
                 </div>
+                <div>
+                    <FormItem prop="companyId">
+                        <Select v-model="formSearch.companyId" style="width:200px;" placeholder="公司主体" filterable clearable>
+                            <Option v-for="(item, index) in companyList" :key="index" :value="item.id">{{item.name}}</Option>
+                        </Select>
+                    </FormItem>
+                    <FormItem prop="userId">
+                        <Select v-model="formSearch.userId" style="width:200px;" placeholder="用户" filterable clearable>
+                            <Option v-for="(item, index) in userList" :key="index" :value="item.id">{{item.userName}}</Option>
+                        </Select>
+                    </FormItem>
+                    <FormItem prop="appId">
+                        <Select v-model="formSearch.appId" style="width:200px;" placeholder="应用" filterable clearable>
+                            <Option v-for="(item, index) in appList" :key="index" :value="item.id">{{item.appName}}</Option>
+                        </Select>
+                    </FormItem>
+                    <FormItem prop="slotId">
+                        <Select v-model="formSearch.slotId" style="width:200px;" placeholder="广告位" filterable clearable>
+                            <Option v-for="(item, index) in codeList" :key="index" :value="item.id" :label="item.slotName">
+                                <div>{{item.slotName}}</div>
+                                <div style="color:#ccc">ID:{{item.slotCode}}</div>
+                            </Option>
+                        </Select>
+                    </FormItem>
+                    <FormItem>
+                        <Button type="primary" icon="ios-search" @click="search(1)">查询</Button>
+                    </FormItem>
+                    <FormItem>
+                        <Button type="primary" icon="md-refresh" color="#5cadff" @click="handleReset('formSearch')">重置</Button>
+                    </FormItem>
+
+                </div>
+
+                <!-- <div>
+                    <FormItem prop="queryStartHour">
+                        <Input v-model="formSearch.queryStartHour" placeholder="开始小时" clearable style="width:100px" />
+                    </FormItem>
+                    <FormItem>-</FormItem>
+                    <FormItem prop="queryEndHour">
+                        <Input v-model="formSearch.queryEndHour" placeholder="结束小时" clearable style="width:100px" />
+                    </FormItem>
+                </div> -->
                 <div>
                     <FormItem prop="groupBy">
                         <label>分组查询</label>
                         <CheckboxGroup v-model="formSearch.groupBy" @on-change="changeGroup">
-                            <Checkbox label="companyId">
+                            <!-- <Checkbox label="companyId">
                                 <span>公司主体</span>
-                            </Checkbox>
+                            </Checkbox> -->
                             <Checkbox label="userId">
 
                                 <span>用户</span>
@@ -90,9 +102,6 @@
 
                                 <span>创意</span>
                             </Checkbox>
-                            <Checkbox label="dataDate">
-                                <span>日期</span>
-                            </Checkbox>
                             <Checkbox label="channelId">
                                 <span>渠道</span>
                             </Checkbox>
@@ -107,6 +116,9 @@
                             <Checkbox label="dataDate">
                                 <span>日期</span>
                             </Checkbox>
+                            <Checkbox label="dataHour">
+                                <span>小时</span>
+                            </Checkbox>
                         </CheckboxGroup>
                     </FormItem>
                 </div>
@@ -116,7 +128,7 @@
         <div class="tableBox">
             <!-- <div class="table_setting" style="margin-bottom:10px;"><Button type="primary" icon="md-add" @click="modalData.type='add';modalData.show = true;">创建广告位</Button></div> -->
             <div class="data_table">
-                <Table size='small' :loading="tableData.loading" border :columns="tableData.columns" :data="tableData.data"></Table>
+                <Table size='small' height="500" :loading="tableData.loading" border :columns="tableData.columns" :data="tableData.data"></Table>
             </div>
             <!-- <div class="table_page" style="margin-top:10px;">
                 <Page :total="pageData.total" :page-size="pageData.limit" @on-change="changePage" @on-page-size-change="changePageSize" size="small" show-total show-sizer />
@@ -223,7 +235,7 @@ export default {
         },
         {
           title: '完成安装',
-          key: 'installStartCount',
+          key: 'installEndCount',
           width: 120,
           align: 'right'
         },
@@ -259,43 +271,55 @@ export default {
           render (h, p) {
             return h('div', {}, Manba(p.row.dataDate).format())
           },
-          width: 200
+          width: 120
         },
         {
           title: '小时',
           key: 'dataHour',
-          width: 30
+          width: 100,
+          fixed: 'left',
+          align: 'center'
         },
         {
           title: '用户',
           key: 'userCompanyName',
-          width: 200
+          width: 120
         },
-        {
-          title: '公司主体',
-          key: 'companyName',
-          width: 200
-        },
+          // {
+          //     title: '公司主体',
+          //     key: 'companyName',
+          //     width: 120
+          // },
         {
           title: '组名称',
           key: 'groupName',
-          width: 200
-        },
-        {
-          title: '创意名称',
-          key: 'ideaName',
-          width: 200
+          width: 200,
+          render (h, params) {
+            return [h('div', {}, params.row.groupId && ('(ID:' + params.row.groupId + ')' + params.row.groupName))]
+          }
         },
         {
           title: '计划名称',
           key: 'planName',
-          width: 200
+          width: 200,
+          render (h, params) {
+            return [h('div', {}, params.row.planId && ('(ID:' + params.row.planId + ')' + params.row.planName))]
+          }
+
         },
         {
-          title: '渠道',
-          key: 'channelName',
-          width: 200
+          title: '创意名称',
+          key: 'ideaName',
+          width: 200,
+          render (h, params) {
+            return [h('div', {}, params.row.ideaId && ('(ID:' + params.row.ideaId + ')' + params.row.ideaName))]
+          }
         },
+          // {
+          //     title: '渠道',
+          //     key: 'channelName',
+          //     width: 200
+          // },
         {
           title: '应用',
           key: 'appName',
@@ -304,10 +328,10 @@ export default {
         {
           title: '广告位',
           key: 'slotName',
-          width: 200
-          // render(h,params) {
-          //     return [h("div",{},params.row.slotCode)]
-          // },
+          width: 200,
+          render (h, params) {
+            return [h('div', {}, params.row.slotCode && ('(ID:' + params.row.slotCode + ') ' + params.row.slotName))]
+          }
         }
 
         ],
@@ -357,7 +381,7 @@ export default {
   methods: {
     changeGroup () {
       // 分组切换
-      this.getList()
+      // this.getList()
     },
     changeDateStart (date) {
       this.formSearch.queryStartTime = date

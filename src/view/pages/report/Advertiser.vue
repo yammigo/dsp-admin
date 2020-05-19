@@ -45,10 +45,13 @@
                 <FormItem>
                     <Button type="primary" icon="md-refresh" color="#5cadff" @click="handleReset('formSearch')">重置</Button>
                 </FormItem>
+                 <FormItem>
+                    <Button type="primary" color="#5cadff" @click="exportData">导出</Button>
+                </FormItem>
                 <div>
                     <FormItem prop="groupBy">
                         <label>分组查询</label>
-                        <CheckboxGroup v-model="formSearch.groupBy" @on-change="changeGroup">
+                        <CheckboxGroup v-model="formSearch.groupBy">
                             <Checkbox label="companyId">
                                 <span>公司主体</span>
                             </Checkbox>
@@ -128,7 +131,7 @@ export default {
         loading: false,
         filterKey: {
           dataDate: ['dataDate'],
-          userId: ['userCompanyName'],
+          userId: ['userName'],
           companyId: ['companyName'],
           groupId: ['groupName'],
           planId: ['planName'],
@@ -137,7 +140,7 @@ export default {
         columns: [],
         commonCol: [{
           title: '金额',
-          key: 'amount',
+          key: 'income',
           width: 120,
           align: 'right'
         },
@@ -179,7 +182,7 @@ export default {
         },
         {
           title: '完成安装',
-          key: 'installStartCount',
+          key: 'installEndCount',
           width: 120,
           align: 'right'
         },
@@ -215,32 +218,32 @@ export default {
           render (h, p) {
             return h('div', {}, Manba(p.row.dataDate).format())
           },
-          width: 200
+          width: 110
         },
         {
           title: '用户',
-          key: 'userCompanyName',
-          width: 200
+          key: 'userName',
+          width: 120
         },
-        {
-          title: '公司主体',
-          key: 'companyName',
-          width: 200
-        },
+        // {
+        //   title: '公司主体',
+        //   key: 'companyName',
+        //   width: 200
+        // },
         {
           title: '组名称',
           key: 'groupName',
-          width: 200
+          width: 140
         },
         {
           title: '创意名称',
           key: 'ideaName',
-          width: 200
+          width: 120
         },
         {
           title: '计划名称',
           key: 'planName',
-          width: 200
+          width: 120
         }
 
         ],
@@ -279,6 +282,11 @@ export default {
     this.search()
   },
   methods: {
+    exportData () {
+      this.axios
+        .post('/data/list/income/user/export.do', this.formSearch)
+        .then(rt => {})
+    },
     changeGroup () {
       // 分组切换
       this.getList()

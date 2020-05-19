@@ -8,7 +8,6 @@
                 <FormItem prop="loginName">
                     <Input type="text" v-model="formSearch.loginName" clearable>
                     <div slot="prepend">账号</div>
-
                     </Input>
                 </FormItem>
                 <FormItem prop="mobile">
@@ -109,6 +108,50 @@
             <Button type="success" @click="modalData.show=false,$refs.formData.resetFields(),formData={}">取消</Button>
         </div>
     </Modal>
+    <Modal v-model="userModal" title="企业认证审核" :mask-closable="false">
+        <Form :model="userCompany" :label-width="80">
+            <FormItem label="用户名">
+                <b>{{userCompany.legalName}}</b>
+            </FormItem>
+            <FormItem label="公司名称">
+                <b>{{userCompany.companyName}}</b>
+            </FormItem>
+            <FormItem label="身份证号">
+                <b>{{userCompany.legalIdCardNumber}}</b>
+            </FormItem>
+            <FormItem label="身份正面">
+                <a :href="userCompany.legalIdCardUrl1" target="_black"><img :src="userCompany.legalIdCardUrl1" width="200" style="border-radius:5px;" /></a>
+            </FormItem>
+            <FormItem label="身份背面">
+                <a :href="userCompany.legalIdCardUrl2" target="_black"><img :src="userCompany.legalIdCardUrl2" width="200" style="border-radius:5px;" /></a>
+            </FormItem>
+            <FormItem label="营业执照">
+                <a :href="userCompany.licenseUrl" target="_black"><img :src="userCompany.licenseUrl" width="200" style="border-radius:5px;" /></a>
+            </FormItem>
+
+        </Form>
+        <div slot="footer">
+            <Button type="error" v-if="userCompany.status==-1" @click="quaCompanyStatus(userCompany.userId,'-2')">审核不通过</Button>
+            <Button type="primary" v-if="userCompany.status==-1" @click="quaCompanyStatus(userCompany.userId,'1')">审核通过</Button>
+        </div>
+    </Modal>
+    <Modal v-model="userModal2" title="投放认证审核" :mask-closable="false">
+        <Form :model="userPutInfo" :label-width="80">
+            <FormItem label="ICP备案图片">
+                <a :href="userPutInfo.icpUrl" target="_black"><img :src="userPutInfo.icpUrl" width="200" style="border-radius:5px;" /></a>
+            </FormItem>
+            <FormItem label="软件著作图片">
+                <a :href="userPutInfo.swcrUrl" target="_black"><img :src="userPutInfo.swcrUrl" width="200" style="border-radius:5px;" /></a>
+            </FormItem>
+            <FormItem label="其他资质图片">
+                <a :href="userPutInfo.otherUrl" target="_black"><img :src="userPutInfo.swcrUrl" width="200" style="border-radius:5px;" /></a>
+            </FormItem>
+        </Form>
+        <div slot="footer">
+            <Button type="error" v-if="userPutInfo.status==-1" @click="quaPutStatus(userPutInfo.userId,'-2')">审核不通过</Button>
+            <Button type="primary" v-if="userPutInfo.status==-1" @click="quaPutStatus(userPutInfo.userId,'1')">审核通过</Button>
+        </div>
+    </Modal>
 </div>
 </template>
 
@@ -125,7 +168,9 @@ import {
   updatePut,
   updateQuaCompany,
   updataUser,
-  updataStatus
+  updataStatus,
+  quaCompany,
+  getuserPut
 } from './api'
 
 export default {
@@ -133,6 +178,10 @@ export default {
   mixins: [status, config],
   data () {
     return {
+      userModal2: false,
+      userModal: false,
+      userPutInfo: {},
+      userCompany: {},
       companyList: [],
       formSearch: {
 
@@ -331,147 +380,36 @@ export default {
                 }
 
               }, dictData.statusText[params.row.status + ''].title)]
-              if (params.row.qaAdPutStatus == -1) {
-                arr.push(h('Button', {
-                  props: {
-                    type: 'text',
-                    size: 'small'
+              // 投放审核
+              arr.push(h('Button', {
+                props: {
+                  type: 'text',
+                  size: 'small'
 
-                  },
-                  style: {
-                    color: dictData.statusColor[1]
-                  },
-                  on: {
-                    click: () => {
-                      this.$Modal.confirm({
-                        title: '你确定要通过投放认证吗？',
-                        loading: true,
-                        onOk: () => {
-                          updatePut({
-                            userId: params.row.id,
-                            status: 1
-                          }).then(res => {
-                            if (res.data.ok) {
-                              this.$Message.success('操作成功')
-                              this.$Modal.remove()
-                              this.search()
-                            }
-                          })
-                        },
-                        onCancel: () => {
-
-                        }
-                      })
-                    }
+                },
+                style: {
+                  color: dictData.statusColor[1]
+                },
+                on: {
+                  click: () => {
+                    this.getPutInfo(params.row.id)
                   }
-
-                }, '投放通过'))
-                arr.push(h('Button', {
-                  props: {
-                    type: 'text',
-                    size: 'small'
-
-                  },
-                  style: {
-                    color: dictData.statusColor[1]
-                  },
-                  on: {
-                    click: () => {
-                      this.$Modal.confirm({
-                        title: '你确定要不通过投放认证吗？',
-                        loading: true,
-                        onOk: () => {
-                          updatePut({
-                            userId: params.row.id,
-                            status: -2
-                          }).then(res => {
-                            if (res.data.ok) {
-                              this.$Message.success('操作成功')
-                              this.$Modal.remove()
-                              this.search()
-                            }
-                          })
-                        },
-                        onCancel: () => {
-
-                        }
-                      })
-                    }
+                }
+              }, '投放认证'))
+              arr.push(h('Button', {
+                props: {
+                  type: 'text',
+                  size: 'small'
+                },
+                style: {
+                  color: dictData.statusColor[1]
+                },
+                on: {
+                  click: () => {
+                    this.getCompanyInfo(params.row.id)
                   }
-
-                }, '投放不通过'))
-              }
-
-              if (params.row.qaCompanyStatus == -1) {
-                arr.push(h('Button', {
-                  props: {
-                    type: 'text',
-                    size: 'small'
-
-                  },
-                  style: {
-                    color: dictData.statusColor[1]
-                  },
-                  on: {
-                    click: () => {
-                      this.$Modal.confirm({
-                        title: '你确定要通过企业认证吗？',
-                        loading: true,
-                        onOk: () => {
-                          updateQuaCompany({
-                            userId: params.row.id,
-                            status: 1
-                          }).then(res => {
-                            if (res.data.ok) {
-                              this.$Message.success('操作成功')
-                              this.$Modal.remove()
-                              this.search()
-                            }
-                          })
-                        },
-                        onCancel: () => {
-
-                        }
-                      })
-                    }
-                  }
-
-                }, '认证通过'))
-                arr.push(h('Button', {
-                  props: {
-                    type: 'text',
-                    size: 'small'
-
-                  },
-                  style: {
-                    color: dictData.statusColor[1]
-                  },
-                  on: {
-                    click: () => {
-                      this.$Modal.confirm({
-                        title: '你确定要不通过企业认证吗？',
-                        loading: true,
-                        onOk: () => {
-                          updateQuaCompany({
-                            userId: params.row.id,
-                            status: -2
-                          }).then(res => {
-                            if (res.data.ok) {
-                              this.$Message.success('操作成功')
-                              this.$Modal.remove()
-                              this.search()
-                            }
-                          })
-                        },
-                        onCancel: () => {
-
-                        }
-                      })
-                    }
-                  }
-
-                }, '认证不通过'))
-              }
+                }
+              }, '企业认证'))
               return arr
             }
           }
@@ -491,6 +429,104 @@ export default {
     this.search()
   },
   methods: {
+    // 企业认证
+    quaCompanyStatus (userId, status) {
+      let remark = ''
+      this.$Modal.confirm({
+        title: (status == -2 ? '不通过' : '通过') + '该企业的资质审核吗？',
+        loading: true,
+        render: (h) => {
+          return h('Input', {
+            props: {
+              value: remark,
+              autofocus: true,
+              placeholder: '请填写审核备注信息'
+            },
+            on: {
+              input: (val) => {
+                remark = val
+              }
+            }
+          })
+        },
+        onOk: () => {
+          updateQuaCompany({
+            userId: userId,
+            status: status,
+            remark: remark
+          }).then(res => {
+            if (res.data.ok) {
+              this.$Message.success('操作成功')
+              this.$Modal.remove()
+              this.userModal = false
+              this.search()
+            }
+          })
+        },
+        onCancel: () => {
+
+        }
+      })
+    },
+    // 投放认证
+    quaPutStatus (userId, status) {
+      let remark = ''
+      this.$Modal.confirm({
+        title: (status == -2 ? '不通过' : '通过') + '该企业的投放审核吗？',
+        loading: true,
+        render: (h) => {
+          return h('Input', {
+            props: {
+              value: remark,
+              autofocus: true,
+              placeholder: '请填写审核备注信息'
+            },
+            on: {
+              input: (val) => {
+                remark = val
+              }
+            }
+          })
+        },
+        onOk: () => {
+          updatePut({
+            userId: userId,
+            status: status,
+            remark: remark
+          }).then(res => {
+            if (res.data.ok) {
+              this.userModal2 = false
+              this.$Message.success('操作成功')
+              this.$Modal.remove()
+              this.search()
+            }
+          })
+        },
+        onCancel: () => {
+
+        }
+      })
+    },
+    getCompanyInfo (userId) {
+      quaCompany({
+        userId: userId
+      }).then(res => {
+        if (res.data.ok) {
+          this.userCompany = res.data.data
+          this.userModal = true
+        }
+      })
+    },
+    getPutInfo (userId) {
+      getuserPut({
+        userId: userId
+      }).then(res => {
+        if (res.data.ok) {
+          this.userPutInfo = res.data.data
+          this.userModal2 = true
+        }
+      })
+    },
     getList (page) {
       this.tableData.loading = true
       let data = {

@@ -55,7 +55,7 @@ function deepString (data) {
 axios.interceptors.request.use(function (config) {
   // config.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
   // 导出文件
-  if (config.url.indexOf('export/private') > -1) {
+  if (config.url.indexOf('export/private') > -1 || config.url.indexOf('/export') > -1) {
     config.responseType = 'blob'
   }
   let token = Utils.getCookie('token')
@@ -73,6 +73,7 @@ axios.interceptors.request.use(function (config) {
   return config
 })
 axios.interceptors.response.use(response => {
+  console.log(response, 'adadad')
   if (response.config.responseType === 'blob') {
     let fileName = response.headers.filename
     let link = document.createElement('a')
@@ -87,10 +88,12 @@ axios.interceptors.response.use(response => {
   } else {
     vm.$Loading.finish() // 加载结束
     if (response.data.code == -2) {
-      localStorage.removeItem(ADMIN_SESSION_ID)
-      localStorage.removeItem(ADMIN_MENULIST)
-      location.href = location.host + '/#/login'
-      location.reload()
+      Utils.clearCookie()
+      Utils.removeLocal('tagNaveList')
+      Utils.removeLocal('menuData')
+      vm.$Message.error(response.data.msg)
+      window.location.reload()
+      // location.reload()
     } else if (response.data.code != 0) {
       vm.$Message.error(response.data.msg)
     }

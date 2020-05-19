@@ -199,6 +199,8 @@ export default {
           {
             title: ' ',
             key: 'action',
+            width: 120,
+            fixed: 'right',
             render: (h, params) => {
               return h('div', [
                 h('Button', {
